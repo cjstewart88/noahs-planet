@@ -1,0 +1,13 @@
+{
+  "name": "noahs-planet",
+  "version": "1.0.0",
+  "description": "Noah's Planet",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Cody Stewart",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}
