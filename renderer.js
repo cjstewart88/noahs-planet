@@ -10,17 +10,20 @@ var yAxis = 0;
 
 var can = document.getElementById('can');
 var canContext = can.getContext('2d');
+
+var maxX = null;
+var maxY = null;
 var redrawCanvas = function() {
-  can.width = can.height = 0;
-  can.width   = 800;
-  can.height  = 600;
+  can.width   = can.height = 0;
+  can.width   = window.innerWidth;
+  can.height  = window.innerHeight;
+  maxX = can.width - 10;
+  maxY = can.height - 10;
 }
 var x = 0;
 var y = 0;
 var minX = 0;
 var minY = 0;
-var maxX = 790;
-var maxY = 590;
 
 window.addEventListener("gamepadconnected", function(e) {
   controller = e.gamepad;
@@ -46,23 +49,30 @@ var detectControllerInput = function() {
     xAxis = controller.axes[0].toFixed(4)
     yAxis = controller.axes[1].toFixed(4)
 
-    if (x < maxX && xAxis > 0) {
-      x += 2;
+    if (xAxis > 0.1 || xAxis < -0.1) {
+      if (x < maxX && xAxis > 0) {
+        x += 2;
+      }
+
+      if (x > minX && xAxis < 0) {
+        x -= 2;
+      }
     }
 
-    if (x > minX && xAxis < 0) {
-      x -= 2;
-    }
+    if (yAxis > 0.1 || yAxis < -0.1) {
+      if (y < maxY && yAxis > 0) {
+        y += 2;
+      }
 
-    if (y < maxY && yAxis > 0) {
-      y += 2;
-    }
-
-    if (y > minX && yAxis < 0) {
-      y -= 2;
+      if (y > minX && yAxis < 0) {
+        y -= 2;
+      }
     }
 
     canContext.fillRect(x, y, 10, 10);
+  } else {
+    canContext.font = "24px serif";
+    canContext.fillText("Move the left analog stick to move the block!", 10, 50);
   }
 
   requestAnimationFrame(detectControllerInput)
