@@ -14,9 +14,9 @@ var canContext = can.getContext('2d');
 var maxX = null;
 var maxY = null;
 var redrawCanvas = function() {
-  can.width   = can.height = 0;
   can.width   = window.innerWidth;
   can.height  = window.innerHeight;
+  canContext.clearRect(0, 0, canvas.width, canvas.height);
   maxX = can.width - 10;
   maxY = can.height - 10;
 }
@@ -34,6 +34,7 @@ window.addEventListener("gamepaddisconnected", function(e) {
 });
 
 var detectControllerInput = function() {
+  requestAnimationFrame(detectControllerInput)
   redrawCanvas();
   controller = navigator.getGamepads()[0];
 
@@ -74,8 +75,6 @@ var detectControllerInput = function() {
     canContext.font = "24px serif";
     canContext.fillText("Move the left analog stick to move the block!", 10, 50);
   }
-
-  requestAnimationFrame(detectControllerInput)
 }
 
 detectControllerInput()
